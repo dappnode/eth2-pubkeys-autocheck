@@ -1,5 +1,5 @@
-FROM rust:1.58.1-alpine as builder
+FROM golang:1.16.15-alpine3.15 as builder
 WORKDIR /usr/src/app
-COPY . .
-RUN cargo build --release
+COPY ./src .
+RUN go build -o auto-check-remote-keys main.go
 

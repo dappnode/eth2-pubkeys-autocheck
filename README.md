@@ -1,4 +1,4 @@
-# Auto check remote keys in Eth2 clients
+## Auto check remote keys in Eth2 clients
 
 :warning: This can only be used on Eth2 clients with [remote keymanager API](https://ethereum.github.io/keymanager-APIs/) implemented. Track eth2 clients progress at https://github.com/dappnode/DAppNode/issues/389
 
@@ -19,15 +19,12 @@ Check, compare and update remote keys between remote signer and eth2 client foll
 
 This repository creates a binary to be used either in the Eth2 client validator container or as a separated service in the same `compose`. It is intended to be executed every period of time, usually using tools such as `cronjob`.
 
-### ENVs
+It must be executed with the following environment variables `CLIENT_ADDRESS`, `CLIENT_PORT` and `NETWORK`
 
-The rust client must be executed with the environment variables defined at `.env.example`. Envs can be defined in the `docker-compose.dev.yml`
+i.e
 
 ```
-RUST_ENV=development
-ETH2_CLIENT_API_URL=http://localhost:9000  # URL of the eth2 client api, notice that if this script is in validator container, there could be used `localhost`
-WEB3SIGNER_API_URL=http://web3signer.web3signer-prater.dappnode:9000  # URL of the remote signer
-RUST_BACKTRACE=1 # To get the stack trace of the error
+CLIENT_ADDRESS=http://validator.prysm-prater.dappnode CLIENT_PORT=9000 NETWORK=prater ./auto-check-remote-keys
 ```
 
 ### Development environment
@@ -37,3 +34,9 @@ Run the compose development file with web3signer and a client to test the binary
 ```
 docker-compose -f docker-compose.development.yml --env-file=./build/.env up -d
 ```
+
+### References
+
+- [Web3signer API docs](https://consensys.github.io/web3signer/)
+- [Remote signer EPI](https://eips.ethereum.org/EIPS/eip-3030)
+- [Client remote keymanager API](https://ethereum.github.io/keymanager-APIs/#/Remote%20Key%20Manager)
